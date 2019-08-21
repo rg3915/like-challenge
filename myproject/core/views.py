@@ -1,3 +1,4 @@
+from django.db.models import Max
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -41,3 +42,10 @@ def video_unlike(request, pk):
         video.save()
         response = {'data': video.unlike}
         return JsonResponse(response)
+
+
+def themes(request):
+    template_name = 'themes.html'
+    themes = Video.objects.values('theme__title').annotate(Max('score'))
+    context = {'themes': themes}
+    return render(request, template_name, context)
