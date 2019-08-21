@@ -8,9 +8,9 @@
     <h1>Welcome!</h1>
     <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
     <p>
-      <a href="">
+      <a href="{% url 'core:video_add' %}">
         <button class="btn btn-primary btn-lg" type="button">
-          Learn more &raquo;
+          Add Video &raquo;
         </button>
       </a>
     </p>
@@ -18,11 +18,22 @@
 </div>
 
 <div class="text-center mt-5 pt-5">
-    <ul>
-        {% for video in videos %}
-            <li>{{ video.title }}</li>
-        {% endfor %}
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Theme</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for video in videos %}
+                <tr>
+                    <td>{{ video.title }}</td>
+                    <td>{{ video.theme }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% endblock content %}
