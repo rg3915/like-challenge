@@ -1,47 +1,91 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-  <div class="container">
-    <h1>Welcome!</h1>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <p>
-      <a href="{% url 'core:video_add' %}">
-        <button class="btn btn-primary btn-lg" type="button">
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome!</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      <p>
+        <a href="{% url 'core:video_add' %}">
+          <button class="btn btn-primary btn-lg" type="button">
           Add Video &raquo;
-        </button>
-      </a>
-    </p>
+          </button>
+        </a>
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="text-center mt-5 pt-5">
+  <div class="text-center mt-5 pt-5">
     <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Theme</th>
-            </tr>
-        </thead>
-        <tbody>
-    {% for video in videos %}
-      <tr>
-        <td>{{ video.title }}</td>
-        <td>{{ video.theme }}</td>
-        <td id="thumbs_up_{{ video.id }}">
-          <i class="fa fa-thumbs-up" style="color: blue"></i>
-        </td>
-        <td id="like_{{ video.id }}" style="padding-right: 10px">{{ video.like }}</td>
-        <td id="thumbs_dow_{{ video.id }}">
-          <i class="fa fa-thumbs-down" style="color: blue"></i>
-        </td>
-        <td id="unlike_{{ video.id }}">{{ video.unlike }}</td>
-      </tr>
-{% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Theme</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for video in videos %}
+          <tr>
+            <td>{{ video.title }}</td>
+            <td>{{ video.theme }}</td>
+            <td>
+              <i class="fa fa-thumbs-up likeCount" style="color: blue" data-id="{{ video.id }}"></i>
+            </td>
+            <td id="like_{{ video.id }}" style="padding-right: 10px">{{ video.like }}</td>
+            <td id="thumbs_dow_{{ video.id }}">
+              <i class="fa fa-thumbs-down unlikeCount" style="color: blue" data-id="{{ video.id }}"></i>
+            </td>
+            <td id="unlike_{{ video.id }}">{{ video.unlike }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</div>
-
+  </div>
 {% endblock content %}
+
+{% block js %}
+
+<script>
+  var like=0;
+  var unlike=0;
+
+  $('.likeCount').on('click', function () {
+    var likeId = $(this).data('id')
+    like++
+    $("#like_" + likeId).html(like)
+
+    let url = "/videos/" + likeId + "/like/"
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        like: like
+      },
+      success: function(response) {
+        like = response.data
+      }
+    })
+  });
+
+  $('.unlikeCount').on('click', function () {
+    var unlikeId = $(this).data('id')
+    unlike++
+    $("#unlike_" + unlikeId).html(unlike)
+
+    let url = "/videos/" + unlikeId + "/unlike/"
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        unlike: unlike
+      },
+      success: function(response) {
+        unlike = response.data
+      }
+    })
+  });
+
+</script>
+
+{% endblock js %}
