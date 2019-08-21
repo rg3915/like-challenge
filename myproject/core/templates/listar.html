@@ -2,6 +2,10 @@
 
 {% block content %}
 
-
+<ul>
+    {% for video in videos %}
+        <li>{{ video.title }}</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}
