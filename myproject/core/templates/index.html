@@ -26,12 +26,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for video in videos %}
-                <tr>
-                    <td>{{ video.title }}</td>
-                    <td>{{ video.theme }}</td>
-                </tr>
-            {% endfor %}
+    {% for video in videos %}
+      <tr>
+        <td>{{ video.title }}</td>
+        <td>{{ video.theme }}</td>
+        <td id="thumbs_up_{{ video.id }}">
+          <i class="fa fa-thumbs-up" style="color: blue"></i>
+        </td>
+        <td id="like_{{ video.id }}" style="padding-right: 10px">{{ video.like }}</td>
+        <td id="thumbs_dow_{{ video.id }}">
+          <i class="fa fa-thumbs-down" style="color: blue"></i>
+        </td>
+        <td id="unlike_{{ video.id }}">{{ video.unlike }}</td>
+      </tr>
+{% endfor %}
         </tbody>
     </table>
 </div>
