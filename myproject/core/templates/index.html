@@ -52,6 +52,7 @@
 
   $('.likeCount').on('click', function () {
     var likeId = $(this).data('id')
+    like = $("#like_" + likeId).text()
     like++
     $("#like_" + likeId).html(like)
 
@@ -70,6 +71,7 @@
 
   $('.unlikeCount').on('click', function () {
     var unlikeId = $(this).data('id')
+    unlike = $("#unlike_" + unlikeId).text()
     unlike++
     $("#unlike_" + unlikeId).html(unlike)
 
