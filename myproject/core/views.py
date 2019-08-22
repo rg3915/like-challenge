@@ -46,6 +46,7 @@ def video_unlike(request, pk):
 
 def themes(request):
     template_name = 'themes.html'
-    themes = Video.objects.values('theme__title').annotate(Max('score'))
+    themes = Video.objects.values('theme__title').annotate(Max('score'))\
+        .order_by('-score__max')
     context = {'themes': themes}
     return render(request, template_name, context)
